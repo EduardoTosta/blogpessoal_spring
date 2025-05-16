@@ -4,6 +4,15 @@
 <img src="https://i.imgur.com/w8tTOuT.png" title="source: imgur.com" /> 
 </div>
 
+<div align="center">
+<img src="https://img.shields.io/github/languages/top/EduardoTosta/aulas_java_generation?style=flat-square" />
+<img src="https://img.shields.io/github/repo-size/EduardoTosta/aulas_java_generation?style=flat-square" />
+<img src="https://img.shields.io/github/languages/count/EduardoTosta/aulas_java_generation?style=flat-square" />
+<img src="https://img.shields.io/github/last-commit/EduardoTosta/aulas_java_generation?style=flat-square" />
+<img src="https://img.shields.io/github/issues/EduardoTosta/aulas_java_generation?style=flat-square" />
+<img src="https://img.shields.io/github/issues-pr/EduardoTosta/aulas_java_generation?style=flat-square" />
+<img src="https://img.shields.io/badge/status-construção-yellow" alt="Status: Em Construção">
+
 ## 1. Descrição
 
 O **Blog Pessoal** é uma aplicação que permite que usuários publiquem, editem e visualizem postagens relacionadas a temas variados, de forma organizada e segura. Este projeto foi desenvolvido com fins educacionais, simulando uma aplicação real de blog para praticar conceitos de API REST com Java e Spring Boot.
