@@ -24,7 +24,6 @@ public class Postagem {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //AUTO_INCREMENT
 	private Long id; 
 	
-	
 	@Column(length = 100)
 	@NotBlank(message = "O atributo título é obrigatório")
 	@Size(min = 5, max = 100, message = "O atributo 'título' deve ter entre 5 e 100 caracteres")
@@ -41,6 +40,10 @@ public class Postagem {
 	@ManyToOne
 	@JsonIgnoreProperties("postagem")
 	private Tema tema;
+	
+	@ManyToOne
+	@JsonIgnoreProperties("postagem")
+	private Usuario usuario;
 
 	public Long getId() {
 		return id;
@@ -81,6 +84,14 @@ public class Postagem {
 
 	public void setTema(Tema tema) {
 		this.tema = tema;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 
