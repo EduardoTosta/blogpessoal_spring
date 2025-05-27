@@ -43,6 +43,20 @@ public class Usuario {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("usuario")
 	private List<Postagem> postagem;
+	
+	// Teste 1 - Construtor vazio padrão, necessário para o JPA/Hibernate 
+    public Usuario() {
+	       
+	    }
+    
+	public Usuario(
+		@NotBlank(message = "O atributo usuario é obrigatório!") @Size(min = 5, max = 255, message = "O email de ter no minimo 5 e no maximo 255 caracteres!") @Email(message = "O Atributo Usuário deve ser um e-mail válido!") String usuario) {
+		super();
+		this.usuario = usuario;
+	}
+	
+	// ------------------------------------------
+	
 
 	/* Insira os Getters and Setters */
 

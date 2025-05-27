@@ -86,28 +86,41 @@ public class UsuarioControllerTest {
 		
 	}
 	
-	@Test
-	@DisplayName("Deve atualizar os dados de um Usuário com sucesso")
-	public void deveAtualizarUmUsuario() {
-	    //Given
-	    Usuario usuario = TestBuilder.criarUsuario(null, "Neymar Jr.", "neymar_junior@email.com", "123456789");	
-	    Optional<Usuario> usuarioCadastrado = usuarioService.cadastrarUsuario(usuario);
+	// Método de teste para verificar a atualização de um usuário existente.
+			@Test
+			@DisplayName("Deve atualizar um usuário existente") // Nome legível para o teste
+			public void deveAtualizarUmUsuario() {
+				
+				//Given (Dado): Prepara os dados.
+				// Cria um usuário inicial para ser cadastrado e depois atualizado.
+				Usuario usuario = TestBuilder.criarUsuario(null, "Juliana Andrews", "juliana_andrews@email.com.br",
+						"juliana123");
+				// Cadastra o usuário e obtém o Optional<Usuario> retornado pelo serviço.
+				Optional<Usuario> usuarioCadastrado = usuarioService.cadastrarUsuario(usuario);
+				
+				// Cria um objeto Usuario com os dados atualizados.
+				// É importante usar o ID do usuário recém-cadastrado para a atualização.
+				Usuario usuarioUpdate = TestBuilder.criarUsuario(usuarioCadastrado.get().getId(), "Juliana Ramos", 
+						"juliana_ramos@email.com.br", "juliana123");
 
-	    assertTrue(usuarioCadastrado.isPresent(), "Usuário não foi cadastrado corretamente");
-	    
-	    Usuario usuarioUpdate = TestBuilder.criarUsuario(usuarioCadastrado.get().getId(), "Neymar dos Santos Junior", "neymar_junior10@email.com", "123456789");
+				//When (Quando): Executa a ação.
+				// Cria uma HttpEntity com os dados do usuário atualizado.
+				HttpEntity<Usuario> requisicao = new HttpEntity<>(usuarioUpdate);
 
-	    //When
-	    HttpEntity<Usuario> requisicao = new HttpEntity<>(usuarioUpdate);
-	    ResponseEntity<Usuario> resposta = testRestTemplate
-	            .withBasicAuth(USUARIO_ROOT_EMAIL, USUARIO_ROOT_SENHA)
-	            .exchange(BASE_URL_USUARIOS + "/atualizar", HttpMethod.PUT, requisicao, Usuario.class);
-	    //Then
-	    assertEquals(HttpStatus.OK, resposta.getStatusCode());
-	    assertEquals("Neymar dos Santos Junior", resposta.getBody().getNome());
-	    assertEquals("neymar_junior10@email.com", resposta.getBody().getUsuario());
-	}
+				// Envia uma requisição PUT para a URL de atualização de usuários.
+				// Usa autenticação básica com as credenciais do usuário root.
+				ResponseEntity<Usuario> resposta = testRestTemplate
+						.withBasicAuth(USUARIO_ROOT_EMAIL, USUARIO_ROOT_SENHA)
+						.exchange(BASE_URL_USUARIOS + "/atualizar", HttpMethod.PUT, requisicao, Usuario.class);
 
+				//Then (Então): Verifica os resultados.
+				// AssertEquals: Verifica se o código de status da resposta é OK (200).
+				assertEquals(HttpStatus.OK, resposta.getStatusCode());
+				// AssertEquals: Verifica se o nome do usuário na resposta foi atualizado corretamente.
+				assertEquals("Juliana Ramos", resposta.getBody().getNome());
+				// AssertEquals: Verifica se o email do usuário na resposta foi atualizado corretamente.
+				assertEquals("juliana_ramos@email.com.br", resposta.getBody().getUsuario());
+			}
 	
 	@Test
 	@DisplayName("Deve listar todos os usuários com sucesso")
@@ -118,9 +131,9 @@ public class UsuarioControllerTest {
 		usuarioService.cadastrarUsuario(TestBuilder.criarUsuario(null, "Igor Jesus", "igor_jesus@email.com", "123456789"));		
 
 		//When
-		ResponseEntity<UsuarioDTO> resposta = testRestTemplate
+		ResponseEntity<UsuarioDTO[]> resposta = testRestTemplate
 				.withBasicAuth(USUARIO_ROOT_EMAIL, USUARIO_ROOT_SENHA)
-				.exchange(BASE_URL_USUARIOS + "/all", HttpMethod.GET, null, UsuarioDTO.class
+				.exchange(BASE_URL_USUARIOS + "/listarUsuarios", HttpMethod.GET, null, UsuarioDTO[].class
 				);
 		
 		//Then

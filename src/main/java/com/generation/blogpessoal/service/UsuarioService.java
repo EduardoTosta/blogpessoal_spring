@@ -65,15 +65,18 @@ public class UsuarioService {
 	
 	
 	public Optional<Usuario> atualizarUsuario(Usuario usuario){
-		
-		if(usuarioRepository.findByUsuario(usuario.getUsuario()).isPresent()) {
-			usuario.setSenha(criptografarSenha(usuario.getSenha()));
-			
-			return Optional.ofNullable(usuarioRepository.save(usuario));
-		}
-		return Optional.empty();
-		
+	    return usuarioRepository.findById(usuario.getId())
+	        .map(usuarioExistente -> {
+	            if (!usuarioExistente.getUsuario().equals(usuario.getUsuario()) &&
+	                usuarioRepository.findByUsuario(usuario.getUsuario()).isPresent()) {
+	                return null; // Já existe outro usuário com esse e-mail
+	            }
+
+	            usuario.setSenha(criptografarSenha(usuario.getSenha()));
+	            return usuarioRepository.save(usuario);
+	        });
 	}
+
 	
 	public Optional<UsuarioLogin> autenticarUsuario(Optional<UsuarioLogin> usuarioLogin){
 		
